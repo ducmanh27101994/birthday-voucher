@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create();
         $batchSize = 500;
-        $totalRecords = 100000;
+        $totalRecords = 500000;
 
         for ($i = 0; $i < $totalRecords / $batchSize; $i++) {
             $users = [];

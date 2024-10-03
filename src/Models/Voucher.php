@@ -16,7 +16,9 @@ class Voucher extends Model
         'amount',
         'expires_at',
         'code',
-        'is_used'
+        'is_used',
+        'currency',
+        'id'
     ];
 
     public function user()
