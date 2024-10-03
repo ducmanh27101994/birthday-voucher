@@ -21,13 +21,17 @@ class GenerateBirthdayVouchersCommand extends Command
     {
         $today = Carbon::now()->format('m-d');
         $limit = 100;
-        User::whereRaw("DATE_FORMAT(birth_day, '%m-%d') = ?", [$today])
-            ->chunk($limit, function ($users) {
-                foreach ($users as $user) {
-                    CreateBirthdayVouchers::dispatch($user);
-                }
-            });
 
-        Log::channel('create_voucher_birthday')->info("Hoàn tất việc chạy voucher sinh nhật: " . Carbon::today());
+        try {
+            User::whereRaw("DATE_FORMAT(birth_day, '%m-%d') = ?", [$today])
+                ->chunk($limit, function ($users) {
+                    foreach ($users as $user) {
+                        CreateBirthdayVouchers::dispatch($user);
+                    }
+                });
+            Log::channel('create_voucher_birthday')->info("Hoàn tất việc chạy voucher sinh nhật: " . Carbon::today());
+        } catch (\Exception $e) {
+            Log::channel('create_voucher_birthday')->error($e->getMessage());
+        }
     }
 }
