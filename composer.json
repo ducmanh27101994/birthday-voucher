@@ -1,0 +1,22 @@
+{
+    "name": "fmcpay/birthday-voucher",
+    "description": "Birthday vouchers for users",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.0",
+        "laravel/framework": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fmcpay\\BirthdayVoucher\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fmcpay\\BirthdayVoucher\\BirthdayVoucherServiceProvider"
+            ]
+        }
+    }
+}
