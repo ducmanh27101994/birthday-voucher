@@ -3,6 +3,7 @@
 namespace Fmcpay\BirthdayVoucher\Http\Controllers;
 
 use Fmcpay\BirthdayVoucher\Console\GenerateBirthdayVouchersCommand;
+use Fmcpay\BirthdayVoucher\Models\Transaction;
 use Illuminate\Http\Request;
 use Fmcpay\BirthdayVoucher\Models\Voucher;
 use Illuminate\Support\Facades\DB;
@@ -77,21 +78,41 @@ class VoucherController
             $wallet->balance += $voucher->amount;
             $wallet->save();
 
-            Log::channel('use_voucher_birthday')->info("Cộng tiền vào ví: Người dùng: {$voucher->user->name}, Giá trị trước: {$previousBalance}, Giá trị sau: {$wallet->balance}");
+            $this->storeTransaction($voucher->user->id, $voucher->amount, $previousBalance, $wallet->balance, $wallet->currency, $voucher->code);
 
             $voucher->is_used = true;
             $voucher->save();
         });
     }
 
-    public function listAllVoucher()
+    private function storeTransaction($userId, $amount, $previousBalance, $newBalance, $currency, $voucherCode)
     {
-        $vouchers = Voucher::all();
+        Transaction::create([
+            'user_id' => $userId,
+            'amount' => $amount,
+            'previous_balance' => $previousBalance,
+            'new_balance' => $newBalance,
+            'currency' => $currency,
+            'voucher_code' => $voucherCode,
+            'created_at' => now(),
+        ]);
+    }
+
+    public function listAllVoucher(Request $request)
+    {
+        $perPage = $request->input('per_page', 10);
+        $vouchers = Voucher::paginate($perPage);
 
         return response()->json([
             'message' => 'Success',
             'status' => 200,
-            'data' => $vouchers ?? []
+            'data' => $vouchers ?? [],
+            'paginate' => [
+                'current_page' => $vouchers->currentPage(),
+                'total' => $vouchers->total(),
+                'per_page' => $vouchers->perPage(),
+                'last_page' => $vouchers->lastPage(),
+            ],
         ]);
     }
 
@@ -185,7 +206,6 @@ class VoucherController
             return response()->json([
                 'message' => $validate->errors(),
                 'status' => 400,
-
             ]);
         }
 
@@ -211,7 +231,6 @@ class VoucherController
         ]);
 
     }
-
 
 
 }
