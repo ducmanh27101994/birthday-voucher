@@ -167,6 +167,7 @@ class VoucherController
             'expires_at' => 'required|date',
             'code' => 'string',
             'currency' => 'required|string',
+            'is_used' => 'required',
         ], [
             'id.required' => 'ID không được để trống',
             'user_id.required' => 'ID người dùng là bắt buộc.',
@@ -178,6 +179,7 @@ class VoucherController
             'code.string' => 'Mã voucher phải là chuỗi ký tự.',
             'currency.required' => 'Loại tiền tệ là bắt buộc.',
             'currency.string' => 'Loại tiền tệ phải là chuỗi.',
+            'is_used.required' => 'Trạng thái voucher không được để trống',
         ]);
         if ($validate->fails()) {
             return response()->json([
@@ -200,7 +202,7 @@ class VoucherController
         $voucher->expires_at = $input['expires_at'];
         $voucher->code = $input['code'];
         $voucher->currency = $input['currency'];
-        $voucher->is_used = $input['is_used'] ?? 0;
+        $voucher->is_used = $input['is_used'];
         $voucher->save();
 
         return response()->json([
