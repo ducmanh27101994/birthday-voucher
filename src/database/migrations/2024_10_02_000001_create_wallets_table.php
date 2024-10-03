@@ -12,6 +12,7 @@ class CreateWalletsTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->decimal('balance', 10, 2)->default(0);
+            $table->string('currency')->default('VNĐ');
             $table->timestamps();
         });
     }

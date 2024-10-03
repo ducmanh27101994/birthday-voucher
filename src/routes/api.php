@@ -7,5 +7,8 @@ Route::post('/indexVoucherUser', [VoucherController::class, 'indexVoucherUser'])
 Route::post('/vouchers/use', [VoucherController::class, 'useVoucher']); //Sử dụng voucher
 
 
-
+Route::post('/listAllVoucher', [VoucherController::class, 'listAllVoucher']);
+Route::post('/createVoucher', [VoucherController::class, 'createVoucher']);
+Route::post('/deleteVoucher', [VoucherController::class, 'deleteVoucher']);
+Route::post('/updateVoucher', [VoucherController::class, 'updateVoucher']);
 

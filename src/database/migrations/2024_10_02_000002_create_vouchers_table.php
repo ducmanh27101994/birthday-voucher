@@ -14,7 +14,7 @@ class CreateVouchersTable extends Migration
             $table->decimal('amount', 10, 2);
             $table->dateTime('expires_at');
             $table->string('code');
-            $table->string('currency');
+            $table->string('currency')->default('VNĐ');
             $table->boolean('is_used')->default(false);
             $table->timestamps();
         });
