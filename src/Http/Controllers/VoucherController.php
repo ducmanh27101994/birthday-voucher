@@ -74,7 +74,7 @@ class VoucherController
             $wallet->balance += $voucher->amount;
             $wallet->save();
 
-            Log::info("Cộng tiền vào ví: Người dùng: {$voucher->user->name}, Giá trị trước: {$previousBalance}, Giá trị sau: {$wallet->balance}");
+            Log::channel('use_voucher_birthday')->info("Cộng tiền vào ví: Người dùng: {$voucher->user->name}, Giá trị trước: {$previousBalance}, Giá trị sau: {$wallet->balance}");
 
             $voucher->is_used = true;
             $voucher->save();

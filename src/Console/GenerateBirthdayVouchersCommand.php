@@ -35,12 +35,12 @@ class GenerateBirthdayVouchersCommand extends Command
                         'expires_at' => $expiresAt,
                         'code' => GenerateBirthdayVouchersCommand::CODE
                     ]);
-                    Log::info("Đã tạo voucher sinh nhật cho người dùng: {$user->name}");
+                    Log::channel('create_voucher_birthday')->info("Đã tạo voucher sinh nhật cho người dùng: {$user->name}");
                 } else {
-                    Log::info("Người dùng {$user->name} đã nhận voucher sinh nhật trong ngày hôm nay.");
+                    Log::channel('create_voucher_birthday')->warning("Người dùng {$user->name} đã nhận voucher sinh nhật trong ngày hôm nay.");
                 }
             }
         }
-        Log::info("Hoàn tất việc tạo voucher ngày: " . Carbon::today());
+        Log::channel('create_voucher_birthday')->info("Hoàn tất việc chạy voucher sinh nhật: " . Carbon::today());
     }
 }
