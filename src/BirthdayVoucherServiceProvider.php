@@ -1,6 +1,7 @@
 <?php
 
 namespace Fmcpay\BirthdayVoucher;
+use Fmcpay\BirthdayVoucher\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\ServiceProvider;
 class BirthdayVoucherServiceProvider extends ServiceProvider
 {
@@ -14,6 +15,7 @@ class BirthdayVoucherServiceProvider extends ServiceProvider
                 Console\GenerateBirthdayVouchersCommand::class,
             ]);
         }
+        $this->app['router']->aliasMiddleware('admin', AdminMiddleware::class);
     }
 
     public function register()

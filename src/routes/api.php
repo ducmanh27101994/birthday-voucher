@@ -6,9 +6,11 @@ use Fmcpay\BirthdayVoucher\Http\Controllers\VoucherController;
 Route::post('/indexVoucherUser', [VoucherController::class, 'indexVoucherUser']); //Danh sách tất cả voucher theo user
 Route::post('/vouchers/use', [VoucherController::class, 'useVoucher']); //Sử dụng voucher
 
+Route::middleware('admin')->group(function () {
+    Route::post('/listAllVoucher', [VoucherController::class, 'listAllVoucher']);
+    Route::post('/createVoucher', [VoucherController::class, 'createVoucher']);
+    Route::post('/deleteVoucher', [VoucherController::class, 'deleteVoucher']);
+    Route::post('/updateVoucher', [VoucherController::class, 'updateVoucher']);
+});
 
-Route::post('/listAllVoucher', [VoucherController::class, 'listAllVoucher']);
-Route::post('/createVoucher', [VoucherController::class, 'createVoucher']);
-Route::post('/deleteVoucher', [VoucherController::class, 'deleteVoucher']);
-Route::post('/updateVoucher', [VoucherController::class, 'updateVoucher']);
 
